@@ -2,6 +2,12 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+# Ces variables sservent à l'envoi de mail
+mail_envoi = input("Entrez adresse mail")
+mail_desti = input("Entrez le destinataire")
+password = input("Mot de passe")
+
+
 f = open('ssh.log', 'r')
 for ligne in f:
     line = ligne.strip(':')
@@ -14,8 +20,8 @@ for ligne in f:
 def mail():
 
     msg = MIMEMultipart()
-    msg['From'] = 'johann77166@gmail.com'
-    msg['To'] = 'moulart.johann@outlook.com'
+    msg['From'] = mail_envoi
+    msg['To'] = mail_desti
     msg['Subject'] = 'Ceci est un test'
     message = 'Bonjour !'
     msg.attach(MIMEText(message))
@@ -23,8 +29,8 @@ def mail():
     mailserver.ehlo()
     mailserver.starttls()
     mailserver.ehlo()
-    mailserver.login('johann77166@gmail.com', 'Crousty1')
-    mailserver.sendmail('johann77166@gmail.com', 'johann77166@gmail.com', msg.as_string())
+    mailserver.login(mail_envoi, password)
+    mailserver.sendmail(mail_envoi, mail_envoi, msg.as_string())
     mailserver.quit()
 mail()
 w.close()
